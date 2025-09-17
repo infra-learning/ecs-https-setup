@@ -2,17 +2,15 @@
 
 set -eu
 
-PROFILE="iac_learning"
-ACCOUNT_ID=$(aws --profile $PROFILE sts get-caller-identity --query Account --output text)
-REGION="ap-northeast-1"
-REPO="${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/hands-on-app"
+if [ -f .env ]; then
+  export $(grep -v '^#' .env | xargs)
+fi
 
-aws --profile $PROFILE ecr get-login-password --region $REGION | \
-  docker login --username AWS --password-stdin "${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com"
+ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
 
-docker buildx create --use || true
-docker buildx build \
-  --platform linux/amd64 \
-  -t "${REPO}:latest" \
-  ./app \
-  --push
+REPO="${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/hands-on-app"
+
+aws ecr get-login-password | docker login --username AWS --password-stdin "${REPO}"
+
+docker build -t "${REPO}:latest" ./app
+docker push "${REPO}:latest"
