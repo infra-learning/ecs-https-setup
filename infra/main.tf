@@ -7,7 +7,7 @@ terraform {
 
 provider "aws" {
   region  = var.region
-  profile = "iac_learning"
+  profile = ""
 }
 
 variable "region" {
