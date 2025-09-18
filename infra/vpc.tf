@@ -3,9 +3,9 @@ module "vpc" {
   version = "5.0.0"
 
   name           = "hands-on"
-  cidr           = "10.0.0.0/16"
-  azs            = ["ap-northeast-1a", "ap-northeast-1c"]
-  public_subnets = ["10.0.1.0/24", "10.0.2.0/24"]
+  cidr           = var.vpc_cidr
+  azs            = var.azs
+  public_subnets = var.public_subnets
 
   enable_nat_gateway      = false
   map_public_ip_on_launch = true
