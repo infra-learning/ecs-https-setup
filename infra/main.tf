@@ -9,8 +9,3 @@ provider "aws" {
   region  = var.region
   profile = ""
 }
-
-variable "region" {
-  type    = string
-  default = "ap-northeast-1"
-}
