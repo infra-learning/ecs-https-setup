@@ -30,7 +30,7 @@ resource "aws_ecs_task_definition" "app" {
   container_definitions = jsonencode([
     {
       name         = "app"
-      image        = "${aws_ecr_repository.app.repository_url}:latest"
+      image        = "${aws_ecr_repository.app.repository_url}:20250918-2"
       essential    = true
       portMappings = [{ containerPort = 80, hostPort = 80, protocol = "tcp" }]
       logConfiguration = {
